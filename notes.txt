@@ -1,0 +1,1 @@
+https://jenyay.net/Programming/Argparse#noargparse - про Примеры без использования argparse
