@@ -138,8 +138,8 @@ def gc_count(read):
 def passed(read, int_min_length, float_left_gc_bound, float_right_gc_bound): 
     if len(read) < int_min_length: # if l(read) < min length => F
         return False
-    less = gc_count(read) < float_right_gc_bound 
-    more = gc_count(read) > float_left_gc_bound
+    less = gc_count(read) < float_left_gc_bound 
+    more = gc_count(read) > float_right_gc_bound
     if less or more == True:
         return False
     return True
