@@ -40,7 +40,7 @@ def fun(z):
         y = list_flags_and_options.index(x) + 1
         if x in list_flags_and_options:
             if (is_flag(list_flags_and_options[y]) == True) or (y == last_ind_in_list_flags_and_options):
-                sys.exit("Вы забыли указать имя для выходных файлов")
+                sys.exit("Вы забыли указать опции после флагов")
             else:
                 return True
     except ValueError:
@@ -80,7 +80,7 @@ if fun(z1):
     y1 = list_flags_and_options.index(z1) + 1
     list_ = ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
     if any(word in str(list_flags_and_options[y1]) for word in list_):
-        sys.exit("Вывести ошибку: Вы использовали в имени файла запрещенные символы: < >: \" / \ | ? *")
+        sys.exit("Вы использовали в имени файла запрещенные символы: < >: \" / \ | ? *")
     else:
         str_new_name = str(list_flags_and_options[y1])
 print("str_new_name: ", str_new_name)
@@ -94,7 +94,7 @@ if fun(z2):
     if isint(list_flags_and_options[y2]) and (int(list_flags_and_options[y2]) > 0):
         int_min_length = int(list_flags_and_options[y2])
     else:
-        sys.exit("Вывести ошибку: Значение минимальной длины рида должно быть целым числом (int) и больше нуля")
+        sys.exit("Значение минимальной длины рида должно быть целым числом (int) и больше нуля")
 print("int_min_length: ", int_min_length)
 
 # 5 part
@@ -104,17 +104,17 @@ fun(z3)
 if fun(z3):
     y3 = list_flags_and_options.index(z3) + 1
     if not (isfloat(list_flags_and_options[y3]) or (float(list_flags_and_options[y3]) > 0)):
-        sys.exit("Вывести ошибку: Значение нижнего порога гц% должно быть числом с плавающей точкой (float) и больше нуля")
+        sys.exit("Значение нижнего порога гц% должно быть числом с плавающей точкой (float) и больше нуля")
     elif isfloat(list_flags_and_options[y3]) and (float(list_flags_and_options[y3]) > 0):
         float_left_gc_bound = float(list_flags_and_options[y3])
         zz = z3
         if fun_fun(zz):
             if not (isfloat(list_flags_and_options[y3]) or (float(list_flags_and_options[y3]) > 0)):
-                sys.exit("Вывести ошибку: Значение верхнего порога гц% должно быть числом с плавающей точкой (float) и больше нуля")
+                sys.exit("Значение верхнего порога гц% должно быть числом с плавающей точкой (float) и больше нуля")
             elif isfloat(list_flags_and_options[y3 + 1]) and (float(list_flags_and_options[y3 + 1]) > 0):
                 float_right_gc_bound = float(list_flags_and_options[y3 + 1])
                 if float_left_gc_bound >= float_right_gc_bound:
-                    sys.exit("Вывести ошибку: Значение нижнего порога не может быть больше или равно верхнего порога гц%")
+                    sys.exit("Значение нижнего порога не может быть больше или равно верхнего порога гц%")
 
 
 
@@ -122,11 +122,7 @@ print("float_left_gc_bound: ", float_left_gc_bound)
 print("float_right_gc_bound: ", float_right_gc_bound)
 
 if "--keep_filtered" in list_flags_and_options:
-    z4 = "--keep_filtered"
-    if not fun(z4):
-        error_output_permission = True
-    else:
-        sys.exit("Вывести ошибку: Флаг --keep_filtered не требует ввода значений после себя")
+    error_output_permission = True
 else:
     error_output_permission = False
 
