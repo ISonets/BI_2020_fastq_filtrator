@@ -1,5 +1,7 @@
 import sys
 
+# ANNA PART
+
 list_flags_and_options = sys.argv[1:]
 last_ind_in_list_flags_and_options = len(list_flags_and_options) - 1
 
@@ -66,12 +68,11 @@ if ".fastq" in str(list_flags_and_options[last_ind_in_list_flags_and_options]):
     str_input_fastq_file_name = str(sys.argv[len(sys.argv) - 1])
     str_path_to_input_fastq_file = str_path_to_dir_with_files + "/" + str_input_fastq_file_name
 else:
-    sys.exit("Последним аргументом команды должен указываться файл с ридами.")
+    sys.exit("Last argument should be .fastq file name!")
 
 # 2 part
 if (is_flag(list_flags_and_options[0]) == False) and (".fastq" not in str(list_flags_and_options[0])):
-    sys.exit("После команды python script.py должен быть указан флаг, если требуется установить опции для работы "
-             "программы, или файл с ридами, хотя тогда фильтрация не будет произведена.")
+    sys.exit("You should specify at least 1 flag and file name to start filtering!(or just a file name to remove error message (although filtration won't start)")
 
 # 3 part
 z1 = "--output_base_name"
@@ -80,7 +81,7 @@ if fun(z1):
     y1 = list_flags_and_options.index(z1) + 1
     list_ = ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
     if any(word in str(list_flags_and_options[y1]) for word in list_):
-        sys.exit("Вы использовали в имени файла запрещенные символы: < >: \" / \ | ? *")
+        sys.exit("Your file name contains forbidden symbols such as: < >: \" / \ | ? *. Rename your file to start filtering!")
     else:
         str_new_name = str(list_flags_and_options[y1])
 
@@ -94,7 +95,7 @@ if fun(z2):
     if isint(list_flags_and_options[y2]) and (int(list_flags_and_options[y2]) > 0):
         int_min_length = int(list_flags_and_options[y2])
     else:
-        sys.exit("Значение минимальной длины рида должно быть целым числом (int) и больше нуля")
+        sys.exit("Min length value should be integer and be > 0!")
 
 
 # 5 part
@@ -104,17 +105,17 @@ fun(z3)
 if fun(z3):
     y3 = list_flags_and_options.index(z3) + 1
     if not (isfloat(list_flags_and_options[y3]) or (float(list_flags_and_options[y3]) > 0)):
-        sys.exit("Значение нижнего порога гц% должно быть числом с плавающей точкой (float) и больше нуля")
+        sys.exit("Lower GC% bound value should be float and be > 0!")
     elif isfloat(list_flags_and_options[y3]) and (float(list_flags_and_options[y3]) > 0):
         float_left_gc_bound = float(list_flags_and_options[y3])
         zz = z3
         if fun_fun(zz):
             if not (isfloat(list_flags_and_options[y3]) or (float(list_flags_and_options[y3]) > 0)):
-                sys.exit("Значение верхнего порога гц% должно быть числом с плавающей точкой (float) и больше нуля")
+                sys.exit("Upper GC% bound value should be float and be > 0!")
             elif isfloat(list_flags_and_options[y3 + 1]) and (float(list_flags_and_options[y3 + 1]) > 0):
                 float_right_gc_bound = float(list_flags_and_options[y3 + 1])
                 if float_left_gc_bound >= float_right_gc_bound:
-                    sys.exit("Значение нижнего порога не может быть больше или равно верхнего порога гц%")
+                    sys.exit("Lower GC% bound value should be strictly less than upper GC bound!")
 
 
 if "--keep_filtered" in list_flags_and_options:
@@ -138,8 +139,8 @@ def gc_count(read):
 def passed(read, int_min_length, float_left_gc_bound, float_right_gc_bound): 
     if len(read) < int_min_length: # if l(read) < min length => F
         return False
-    less = gc_count(read) < float_left_gc_bound 
-    more = gc_count(read) > float_right_gc_bound
+    less = gc_count(read) < float_left_gc_bound # if less than left GC bound => True
+    more = gc_count(read) > float_right_gc_bound # if more than right GC bound => True
     if less or more == True:
         return False
     return True
@@ -155,7 +156,7 @@ all_reads = fastq_input.read().splitlines()
 # N of reads in file
 total_reads = str(len(all_reads) // 4)
 # create output blank file and creating failed .fastq if necessary 
-fastq_passed = open(str_new_name+ '_passed.fastq', 'w')  # замена на str_new_name?
+fastq_passed = open(str_new_name+ '_passed.fastq', 'w')  
 if error_output_permission == True:
     fastq_failed = open(str_new_name + '_failed.fastq', 'w')
     
@@ -166,7 +167,7 @@ for i in range(0, len(all_reads), 4): #we need to read lines by 4, e.g. 1-4, 5-8
     current_read = all_reads[i:i + 4] # reading 2nd line where ATGC's are
     if i == 0: # check if empty
         print()
-    if passed(current_read[1], int_min_length, float_left_gc_bound, float_right_gc_bound):  # вот тут надо менять или на z1-z4,или как-то по-другому
+    if passed(current_read[1], int_min_length, float_left_gc_bound, float_right_gc_bound):  
         file_output(current_read, fastq_passed)
         reads_passed += 1
     else:
@@ -175,10 +176,10 @@ for i in range(0, len(all_reads), 4): #we need to read lines by 4, e.g. 1-4, 5-8
         reads_failed += 1
         
 # don't forget to close file
-print('Готово!')
-print('Всего прочтений ' + str_input_fastq_file_name + ': ' + total_reads)
-print(str(reads_passed) + ' (' + str(round(reads_passed * 100 / int(total_reads), 2)) + '%) прочтений прошло фильтрацию.')
-print(str(reads_failed) + ' (' + str(round(reads_failed * 100 / int(total_reads), 2)) + '%) прочтений не прошло фильтрацию.')
+print('Done!')
+print('Total reads number is ' + str_input_fastq_file_name + ': ' + total_reads)
+print(str(reads_passed) + ' (' + str(round(reads_passed * 100 / int(total_reads), 2)) + '%) reads passed filtering.')
+print(str(reads_failed) + ' (' + str(round(reads_failed * 100 / int(total_reads), 2)) + '%) reads failed filtering.')
 
 fastq_passed.close()
 fastq_input.close()
