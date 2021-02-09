@@ -83,7 +83,7 @@ if fun(z1):
         sys.exit("Вы использовали в имени файла запрещенные символы: < >: \" / \ | ? *")
     else:
         str_new_name = str(list_flags_and_options[y1])
-print("str_new_name: ", str_new_name)
+
 
 # 4 part
 z2 = "--min_length"
@@ -95,7 +95,7 @@ if fun(z2):
         int_min_length = int(list_flags_and_options[y2])
     else:
         sys.exit("Значение минимальной длины рида должно быть целым числом (int) и больше нуля")
-print("int_min_length: ", int_min_length)
+
 
 # 5 part
 z3 = "--gc_bound"
@@ -117,16 +117,12 @@ if fun(z3):
                     sys.exit("Значение нижнего порога не может быть больше или равно верхнего порога гц%")
 
 
-
-print("float_left_gc_bound: ", float_left_gc_bound)
-print("float_right_gc_bound: ", float_right_gc_bound)
-
 if "--keep_filtered" in list_flags_and_options:
     error_output_permission = True
 else:
     error_output_permission = False
 
-print(error_output_permission)
+
 
 # IGNAT PART
 
