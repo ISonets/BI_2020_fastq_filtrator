@@ -4,11 +4,11 @@ list_flags_and_options = sys.argv[1:]
 last_ind_in_list_flags_and_options = len(list_flags_and_options) - 1
 
 # default values for filtration start
-str_new_name = str("zero")
-int_min_length = int(0)
-float_left_gc_bound = float(0.0)
-float_right_gc_bound = float(0.0)
-bool_error_output_permission = bool(False)
+str_new_name = "zero"
+int_min_length = 0
+float_left_gc_bound = 0.0
+float_right_gc_bound = 0.0
+bool_error_output_permission = False
 
 # check is the argument in sys.argv[1:] is a flag
 def is_flag(x):
