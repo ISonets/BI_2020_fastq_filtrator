@@ -139,15 +139,11 @@ def gc_count(read):
     return count * 100 / len(read)
 # ez
 # check for good reads
-def passed(read, min_l, gc_bounds): # замена на z1 или на что?
-    if len(read) < min_l: # if l(read) < min length => F
+def passed(read, int_min_length, float_left_gc_bound, float_right_gc_bound): 
+    if len(read) < int_min_length: # if l(read) < min length => F
         return False
-    if len(gc_bounds) == 1: # if we enter only right bound
-        if gc_count(read) < gc_bounds[0]:
-            return False
-    elif len(gc_bounds) == 2: # if we enter both bounds
-        less = gc_count(read) < gc_bounds[0] # вот здесь с границами надо подумать, как реализовать
-        more = gc_count(read) > gc_bounds[1]
+        less = gc_count(read) < float_right_gc_bound 
+        more = gc_count(read) > float_left_gc_bound
         if less or more == True:
             return False
     return True
