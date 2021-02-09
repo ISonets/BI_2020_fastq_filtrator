@@ -155,9 +155,9 @@ all_reads = fastq_input.read().splitlines()
 # N of reads in file
 total_reads = str(len(all_reads) // 4)
 # create output blank file and creating failed .fastq if necessary 
-fastq_passed = open(str_new_name+ '__passed.fastq', 'w')  # замена на str_new_name?
+fastq_passed = open(str_new_name+ '_passed.fastq', 'w')  # замена на str_new_name?
 if error_output_permission == True:
-    fastq_failed = open(str_new_name + '__failed.fastq', 'w')
+    fastq_failed = open(str_new_name + '_failed.fastq', 'w')
     
 # counter for passed/failed reads and their filtration
 reads_passed = 0
