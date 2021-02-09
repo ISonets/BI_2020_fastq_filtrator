@@ -63,8 +63,8 @@ def fun_fun(zz):
 # 1 part
 if ".fastq" in str(list_flags_and_options[last_ind_in_list_flags_and_options]):
     str_path_to_dir_with_files = sys.path[0]
-    str_intput_fastq_file_name = str(sys.argv[len(sys.argv) - 1])
-    str_path_to_intput_fastq_file = str_path_to_dir_with_files + "/" + str_intput_fastq_file_name
+    str_input_fastq_file_name = str(sys.argv[len(sys.argv) - 1])
+    str_path_to_input_fastq_file = str_path_to_dir_with_files + "/" + str_input_fastq_file_name
 else:
     sys.exit("Последним аргументом команды должен указываться файл с ридами.")
 
@@ -153,15 +153,15 @@ def file_output(readlines, file):
     file.write('\n'.join(readlines) + '\n')
 # ez af
 # open file
-fastq_input = open(input_file, 'r')
+fastq_input = open(str_input_fastq_file_name, 'r')
 # read all input lines
 all_reads = fastq_input.read().splitlines()
 # N of reads in file
 total_reads = str(len(all_reads) // 4)
 # create output blank file and creating failed .fastq if necessary 
-fastq_passed = open(output_base_name + '__passed.fastq', 'w')  # замена на str_new_name?
+fastq_passed = open(str_new_name+ '__passed.fastq', 'w')  # замена на str_new_name?
 if keep_filtered == True:
-    fastq_failed = open(output_base_name + '__failed.fastq', 'w')
+    fastq_failed = open(str_new_name + '__failed.fastq', 'w')
     
 # counter for passed/failed reads and their filtration
 reads_passed = 0
@@ -170,21 +170,21 @@ for i in range(0, len(all_reads), 4): #we need to read lines by 4, e.g. 1-4, 5-8
     current_read = all_reads[i:i + 4] # reading 2nd line where ATGC's are
     if i == 0: # check if empty
         print()
-    if passed(current_read[1], min_l, gc_bounds):  # вот тут надо менять или на z1-z4,или как-то по-другому
+    if passed(current_read[1], int_min_length, float_left_gc_bound, float_right_gc_bound):  # вот тут надо менять или на z1-z4,или как-то по-другому
         file_output(current_read, fastq_passed)
         reads_passed += 1
     else:
-        if keep_filtered == True: # и вот здесь замена корректная
+        if error_output_permission == True: 
             file_output(current_read, fastq_failed)
         reads_failed += 1
         
 # don't forget to close file
 print('Готово!')
-print('Всего прочтений' + input_file + ':' + total_reads)
+print('Всего прочтений' + str_input_fastq_file_name + ':' + total_reads)
 print(str(reads_passed) + ' (' + str(round(reads_passed * 100 / int(total_reads), 2)) + '%) прочтений прошло фильтрацию.')
 print(str(reads_failed) + ' (' + str(round(reads_failed * 100 / int(total_reads), 2)) + '%) прочтений не прошло фильтрацию.')
 
 fastq_passed.close()
 fastq_input.close()
-if keep_filtered:
+if error_output_permission == True:
     fastq_failed.close()
