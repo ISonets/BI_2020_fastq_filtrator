@@ -144,7 +144,8 @@ def passed(read, int_min_length, float_left_gc_bound, float_right_gc_bound):
         more = gc_count(read) > float_right_gc_bound # if more than right GC bound => True
         if less or more == True:
             return False
-        return True
+        else:
+            return True
 # ez
 # save in file
 def file_output(readlines, file):
