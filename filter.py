@@ -137,10 +137,11 @@ def gc_count(read):
 # ez
 # check for good reads
 def passed(read, int_min_length, float_left_gc_bound, float_right_gc_bound):
-    if len(read) < int_min_length:  # if l(read) < min length => F
-        return False
-    else:
-        return True
+    if "--min_length" in list_flags_and_options:
+        if len(read) < int_min_length:  # if l(read) < min length => F
+            return False
+        else:
+            return True
 
     if "--gc_bounds" in list_flags_and_options:
         less = gc_count(read) < float_left_gc_bound # if less than left GC bound => True
