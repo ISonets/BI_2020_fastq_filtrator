@@ -42,7 +42,7 @@ def fun(z):
         y = list_flags_and_options.index(x) + 1
         if x in list_flags_and_options:
             if (is_flag(list_flags_and_options[y]) == True) or (y == last_ind_in_list_flags_and_options):
-                sys.exit("Вы забыли указать опции после флагов")
+                sys.exit("Ypu forgot to specify values after arguments!")
             else:
                 return True
     except ValueError:
