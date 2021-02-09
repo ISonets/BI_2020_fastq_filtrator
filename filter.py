@@ -180,7 +180,7 @@ for i in range(0, len(all_reads), 4): #we need to read lines by 4, e.g. 1-4, 5-8
         
 # don't forget to close file
 print('Готово!')
-print('Всего прочтений' + str_input_fastq_file_name + ':' + total_reads)
+print('Всего прочтений' + str_input_fastq_file_name + ': ' + total_reads)
 print(str(reads_passed) + ' (' + str(round(reads_passed * 100 / int(total_reads), 2)) + '%) прочтений прошло фильтрацию.')
 print(str(reads_failed) + ' (' + str(round(reads_failed * 100 / int(total_reads), 2)) + '%) прочтений не прошло фильтрацию.')
 
