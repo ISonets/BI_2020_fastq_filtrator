@@ -98,7 +98,7 @@ if fun(z2):
 
 
 # 5 part
-z3 = "--gc_bound"
+z3 = "--gc_bounds"
 fun(z3)
 
 if fun(z3):
