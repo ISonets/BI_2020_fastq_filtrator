@@ -79,11 +79,7 @@ z1 = "--output_base_name"
 
 if fun(z1):
     y1 = list_flags_and_options.index(z1) + 1
-    list_ = ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
-    if any(word in str(list_flags_and_options[y1]) for word in list_):
-        sys.exit("Your file name contains forbidden symbols such as: < >: \" / \ | ? *. Rename your file to start filtering!")
-    else:
-        str_new_name = str(list_flags_and_options[y1])
+    str_new_name = str(list_flags_and_options[y1])
 
 
 # 4 part
