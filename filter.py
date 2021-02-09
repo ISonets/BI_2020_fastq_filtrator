@@ -143,11 +143,11 @@ def passed(read, int_min_length, float_left_gc_bound, float_right_gc_bound):
         return True
 
     if "--gc_bounds" in list_flags_and_options:
-    less = gc_count(read) < float_left_gc_bound # if less than left GC bound => True
-    more = gc_count(read) > float_right_gc_bound # if more than right GC bound => True
-    if less or more == True:
-        return False
-    return True
+        less = gc_count(read) < float_left_gc_bound # if less than left GC bound => True
+        more = gc_count(read) > float_right_gc_bound # if more than right GC bound => True
+        if less or more == True:
+            return False
+        return True
 # ez
 # save in file
 def file_output(readlines, file):
