@@ -131,3 +131,68 @@ else:
     error_output_permission = False
 
 print(error_output_permission)
+
+# IGNAT PART
+
+# GC count caculation
+def gc_count(read):
+    count = 0
+    for base in read:
+        if base == 'C' or base == 'G':
+            count += 1
+    return count * 100 / len(read)
+# ez
+# check for good reads
+def passed(read, min_l, gc_bounds): # замена на z1 или на что?
+    if len(read) < min_l: # if l(read) < min length => F
+        return False
+    if len(gc_bounds) == 1: # if we enter only right bound
+        if gc_count(read) < gc_bounds[0]:
+            return False
+    elif len(gc_bounds) == 2: # if we enter both bounds
+        less = gc_count(read) < gc_bounds[0] # вот здесь с границами надо подумать, как реализовать
+        more = gc_count(read) > gc_bounds[1]
+        if less or more == True:
+            return False
+    return True
+# ez
+# save in file
+def file_output(readlines, file):
+    file.write('\n'.join(readlines) + '\n')
+# ez af
+# open file
+fastq_input = open(input_file, 'r')
+# read all input lines
+all_reads = fastq_input.read().splitlines()
+# N of reads in file
+total_reads = str(len(all_reads) // 4)
+# create output blank file and creating failed .fastq if necessary 
+fastq_passed = open(output_base_name + '__passed.fastq', 'w')  # замена на str_new_name?
+if keep_filtered == True:
+    fastq_failed = open(output_base_name + '__failed.fastq', 'w')
+    
+# counter for passed/failed reads and their filtration
+reads_passed = 0
+reads_failed = 0
+for i in range(0, len(all_reads), 4): #we need to read lines by 4, e.g. 1-4, 5-8, 9-12 etc.
+    current_read = all_reads[i:i + 4] # reading 2nd line where ATGC's are
+    if i == 0: # check if empty
+        print()
+    if passed(current_read[1], min_l, gc_bounds):  # вот тут надо менять или на z1-z4,или как-то по-другому
+        file_output(current_read, fastq_passed)
+        reads_passed += 1
+    else:
+        if keep_filtered == True: # и вот здесь замена корректная
+            file_output(current_read, fastq_failed)
+        reads_failed += 1
+        
+# don't forget to close file
+print('Готово!')
+print('Всего прочтений' + input_file + ':' + total_reads)
+print(str(reads_passed) + ' (' + str(round(reads_passed * 100 / int(total_reads), 2)) + '%) прочтений прошло фильтрацию.')
+print(str(reads_failed) + ' (' + str(round(reads_failed * 100 / int(total_reads), 2)) + '%) прочтений не прошло фильтрацию.')
+
+fastq_passed.close()
+fastq_input.close()
+if keep_filtered:
+    fastq_failed.close()
